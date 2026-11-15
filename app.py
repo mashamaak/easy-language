@@ -53,6 +53,16 @@ HTML_TEMPLATE = """
 """
 
 
+def format_result(text):
+    # Убираем возможные остатки Markdown
+    text = re.sub(r'^###\s*(.+)$', r'<h4>\1</h4>', text, flags=re.MULTILINE)
+    text = re.sub(r'^##\s*(.+)$', r'<h3>\1</h3>', text, flags=re.MULTILINE)
+    text = re.sub(r'^#\s*(.+)$', r'<h2>\1</h2>', text, flags=re.MULTILINE)
+    # Заменяем переносы строк на <br>
+    text = text.replace('\n', '<br>')
+    return text
+
+
 def simplify_with_yandex(text):
     url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
     headers = {
